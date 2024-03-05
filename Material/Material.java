@@ -33,7 +33,7 @@ public class Material extends JFrame implements Serializable {
 	private JTextArea textArea;
 	private static ArrayList<String> desc = new ArrayList<>();
 	private static ArrayList<Integer> ctdad = new ArrayList<>();
-	JLabel noStringAdviseLabel;
+	JLabel noStringWarningLabel;
 
 	private static final String RUTA = new File("").getAbsolutePath() + "\\src\\";
 	private JLabel messageIsEmptyLabel;
@@ -60,42 +60,50 @@ public class Material extends JFrame implements Serializable {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				String unidadesStr;
 				String material = tMaterial.getText();
 				desc.add(material);
-				
-				if(tMaterial.getText().isEmpty()) {
+
+				if (tMaterial.getText().isEmpty()) {
 					messageIsEmptyLabel.setVisible(true);
-					return;
 				} else {
 					messageIsEmptyLabel.setVisible(false);
 				}
-				
+
 				try {
-					String unidadesStr = tUnidades.getText();
-					
-					if(unidadesStr.isEmpty()) {
+					unidadesStr = tUnidades.getText();
+					if (unidadesStr.isEmpty()) {
 						unitsIsEmptyLabel.setVisible(true);
-						return;
 					} else {
 						unitsIsEmptyLabel.setVisible(false);
 					}
 
-					ctdad.add(Integer.parseInt(unidadesStr));
-					noStringAdviseLabel.setVisible(false);
-					textArea.append(material + ", Unidades: " + unidadesStr + "\n");
-					tMaterial.setText("");
-					tUnidades.setText("");
+					noStringWarningLabel.setVisible(false);
+
+					if (!tMaterial.getText().isEmpty()) {
+						ctdad.add(Integer.parseInt(unidadesStr));
+						textArea.append(material + ", Unidades: " + unidadesStr + "\n");
+						tMaterial.setText("");
+						tUnidades.setText("");
+					} else {
+						return;
+					}
 				} catch (NumberFormatException nfe) {
 					System.out.println("Error en el parseo a entero de la cadena introducida:  " + nfe.getMessage());
-					noStringAdviseLabel.setVisible(true);
+					noStringWarningLabel.setVisible(true);
+					return;
 				}
+				if (tMaterial.getText().isEmpty() || unidadesStr.isEmpty()) {
+					return;
+				}
+				noStringWarningLabel.setVisible(false);
 			}
 		});
 		btnAdd.setBounds(414, 53, 89, 23);
 		contentPane.add(btnAdd);
 
 		tMaterial = new JTextField();
-		tMaterial.setBounds(66, 49, 170, 30);
+		tMaterial.setBounds(39, 49, 170, 30);
 		contentPane.add(tMaterial);
 		tMaterial.setColumns(10);
 
@@ -124,37 +132,35 @@ public class Material extends JFrame implements Serializable {
 
 				// Utilizo el objeto de interface frameMaterial
 				frameMaterial.enviaDatosMaterial(textArea.getText());
-				
-				dispose();
-				
 
-			
+				dispose();
+
 			}
 		});
-		btnGrabarYSalir.setBounds(433, 212, 144, 44);
+		btnGrabarYSalir.setBounds(478, 214, 132, 44);
 		contentPane.add(btnGrabarYSalir);
 
 		textArea = new JTextArea();
 		textArea.setFocusable(false);
 		textArea.setEditable(false);
-		textArea.setBounds(58, 124, 342, 132);
+		textArea.setBounds(39, 126, 416, 132);
 		contentPane.add(textArea);
 
-		noStringAdviseLabel = new JLabel("Debe introducir un número, no letras");
-		noStringAdviseLabel.setForeground(new Color(255, 0, 0));
-		noStringAdviseLabel.setBounds(265, 90, 238, 14);
-		noStringAdviseLabel.setVisible(false);
-		contentPane.add(noStringAdviseLabel);
-		
-		messageIsEmptyLabel = new JLabel("El material no puede quedar vacío");
+		noStringWarningLabel = new JLabel("No pueden existir caracteres alfabéticos, solo dígitos.");
+		noStringWarningLabel.setForeground(new Color(255, 0, 0));
+		noStringWarningLabel.setBounds(265, 87, 333, 14);
+		noStringWarningLabel.setVisible(false);
+		contentPane.add(noStringWarningLabel);
+
+		messageIsEmptyLabel = new JLabel("El material no puede quedar vacío.");
 		messageIsEmptyLabel.setForeground(new Color(255, 0, 0));
-		messageIsEmptyLabel.setBounds(66, 90, 204, 14);
+		messageIsEmptyLabel.setBounds(39, 87, 204, 14);
 		messageIsEmptyLabel.setVisible(false);
 		contentPane.add(messageIsEmptyLabel);
-		
-		unitsIsEmptyLabel = new JLabel("Tiene que establecer un número de unidades");
+
+		unitsIsEmptyLabel = new JLabel("Tiene que establecer un número mínimo de unidades.");
 		unitsIsEmptyLabel.setForeground(new Color(255, 0, 0));
-		unitsIsEmptyLabel.setBounds(265, 102, 259, 14);
+		unitsIsEmptyLabel.setBounds(265, 101, 333, 14);
 		unitsIsEmptyLabel.setVisible(false);
 		contentPane.add(unitsIsEmptyLabel);
 

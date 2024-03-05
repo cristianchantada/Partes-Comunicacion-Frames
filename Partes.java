@@ -64,16 +64,13 @@ public class Partes extends JFrame implements ComunicaDatos {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-
 					Partes frame = new Partes();
 					frame.setVisible(true);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
 	}
 
 	// Implementación de interfaces para el intercambio de datos
@@ -140,7 +137,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 		contentPane.add(lblMaterial);
 
 		txtMaterial.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtMaterial.setBounds(108, 98, 300, 119);
+		txtMaterial.setBounds(108, 98, 500, 119);
 		contentPane.add(txtMaterial);
 
 		Partes parteActual = this;
@@ -171,7 +168,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 		lblServicios.setBounds(10, 228, 64, 20);
 		contentPane.add(lblServicios);
 		txtServicios.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtServicios.setBounds(108, 228, 300, 119);
+		txtServicios.setBounds(108, 228, 500, 119);
 		contentPane.add(txtServicios);
 
 		Partes parteActual = this;

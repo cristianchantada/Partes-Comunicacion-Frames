@@ -1,3 +1,4 @@
+package Servicios2;
 import java.io.*;
 import java.util.Date;
 public class Servicio implements Serializable {

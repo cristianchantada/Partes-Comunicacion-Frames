@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="Servicios/" kind="src" path=""/>
-	<classpathentry kind="src" path="Servicios"/>
-	<classpathentry kind="lib" path="C:/Users/Usuario/Desktop/Partes-Comunicacion-Frames/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/DAW/Programación/Java2Evaluacion/Partes-Comunicacion-Frames/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

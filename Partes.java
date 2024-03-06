@@ -280,7 +280,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 			public void mouseClicked(MouseEvent e) {
 				Mensaje.verMensaje("Grabar Parte");
 				
-				Parte parte = new Parte();
+				
 				
 			
 				

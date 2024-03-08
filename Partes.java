@@ -16,6 +16,7 @@ import EstadoPartesEnum.EstadoParte;
 import Interfaces.ComunicaDatos;
 import Material.Material;
 import Mensajes.*;
+import Servicio.FicheroServicio;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

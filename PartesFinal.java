@@ -27,7 +27,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 
-public class Partes extends JFrame implements ComunicaDatos {
+public class PartesFinal extends JFrame implements ComunicaDatos {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -75,7 +75,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 			public void run() {
 				try {
 
-					Partes frame = new Partes();
+					PartesFinal frame = new PartesFinal();
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -98,7 +98,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 	/**
 	 * Create the frame.
 	 */
-	public Partes() {
+	public PartesFinal() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 873, 600);
@@ -153,7 +153,7 @@ public class Partes extends JFrame implements ComunicaDatos {
 			txtMaterial.setBounds(108, 98, 300, 119);
 			contentPane.add(txtMaterial);
 			
-			Partes parteActual=this;
+			PartesFinal parteActual=this;
 
 			txtMaterial.addFocusListener(new FocusAdapter() {
 				@Override

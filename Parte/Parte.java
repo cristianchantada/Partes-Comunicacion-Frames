@@ -1,12 +1,14 @@
-package Parte;
+/*package Parte;
 import java.io.Serializable;
 import java.util.Date;
 
 import Clientes.Cliente;
 import Empleado.Empleado;
 import EstadoPartesEnum.EstadoParte;
+import Localizacion.Localizacion;
 import Material.Material;
 import Servicios.Servicio;
+import Vehiculo.Vehiculo;
 
 
 public class Parte implements Serializable {
@@ -140,3 +142,4 @@ public class Parte implements Serializable {
                 "\t\tlocalizacion\t\t\t: " + localizacion + "\n\n";
     }
 }
+*/

@@ -1,4 +1,4 @@
-package Parte;
+/*package Parte;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,4 +92,4 @@ public class Validator {
 		return matcher.matches();
 	}
 
-}
+}*/

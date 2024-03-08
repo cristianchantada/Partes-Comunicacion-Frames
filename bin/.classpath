@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry excluding="Servicios/" kind="src" path=""/>
 	<classpathentry kind="lib" path="C:/DAW/Programación/Java2Evaluacion/Partes-Comunicacion-Frames/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="MySql-connector/mysql-connector-j-8.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

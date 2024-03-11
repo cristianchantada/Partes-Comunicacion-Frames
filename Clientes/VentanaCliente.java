@@ -2,132 +2,126 @@ package Clientes;
 
 import java.util.List;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import Mensajes.Mensaje;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
-import Validacion.*;
+import static Mensajes.Mensaje.verMensaje;
+import java.awt.event.*;
+import static Validacion.Validator.*;
 
 public class VentanaCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	public JTextField txtNIF;
-	private JTextField txtNombre;
-	private JTextField txtCorreo;
-	private JTextField txtTelefono;
+	private JPanel contentPane = new JPanel();
+	private JButton createClientButton = new JButton("Crear nuevo cliente");
+	private JTextField emailInput = new JTextField();
+	private JTextField nifInput = new JTextField();
+	private JTextField nameInput = new JTextField();
+	private JTextField phoneInput = new JTextField();
+	private Cliente cliente;
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaCliente() {
+	public VentanaCliente(Cliente c) {
 		
-		setBounds(100, 100, 315, 210);
-		contentPane = new JPanel();
+		cliente = c;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 459, 329);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		txtNIF = new JTextField();
-		txtNIF.setBounds(88, 21, 158, 20);
-		contentPane.add(txtNIF);
-		txtNIF.setColumns(10);
+		montarLabels();
+		montarInputs();
 		
-		txtNombre = new JTextField();
-		txtNombre.setColumns(10);
-		txtNombre.setBounds(88, 52, 158, 20);
-		contentPane.add(txtNombre);
-		
-		txtCorreo = new JTextField();
-		txtCorreo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!Validator.validateEmail(txtCorreo.getText())) {
-					Mensaje.verMensaje("El correo no es correcto.\nPor favor escribe el correo correcto");
-					txtCorreo.requestFocus();	
-				}
-					
-			}
-		});
-		txtCorreo.setColumns(10);
-		txtCorreo.setBounds(88, 85, 158, 20);
-		contentPane.add(txtCorreo);
-		
-		txtTelefono = new JTextField();
-		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(88, 116, 158, 20);
-		contentPane.add(txtTelefono);
-		
-		JButton btnInsertar = new JButton("Añadir");
-		btnInsertar.addMouseListener(new MouseAdapter() {
+		createClientButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String nif=txtNIF.getText(), 
-					   nombre=txtNombre.getText(),
-					   correo=txtCorreo.getText(), 
-					   tfno=txtTelefono.getText();
-				
-				List <Cliente> listaClientes=new ArrayList<>();
-				listaClientes=FicheroCliente.lClientes;
-				//Cargo el cliente nuevo
-				Cliente nuevoCliente=new Cliente(nif,nombre,
-						                         correo,tfno);
-				//Grabo el nuevo cliente
-				listaClientes.add(nuevoCliente);	
-				FicheroCliente.crearFichero(listaClientes);
-				
-				dispose();
+				pulsarBoton();
 			}
 		});
-		btnInsertar.setBounds(123, 147, 89, 23);
-		contentPane.add(btnInsertar);
+		createClientButton.setBounds(195, 180, 139, 23);
+		contentPane.add(createClientButton);
+		setVisible(true);
+	}
+	
+	public void setNifInInput(String nif) {
+		nifInput.setText(nif);
+		nifInput.setEnabled(false);
+	}
+
+	public void pulsarBoton() {
+		String nif = nifInput.getText().replaceAll("\\s", "").replaceAll("-", "");
+		String name = nameInput.getText();
+		String email = emailInput.getText();
+		String phone = phoneInput.getText();
 		
-		JLabel lblnif = new JLabel("NIF");
-		lblnif.setBounds(10, 24, 46, 14);
-		contentPane.add(lblnif);
+		boolean checker = true;
+		if(!nifValidator(nif)) {
+			verMensaje("El NIF no es correcto, por favor, buelva a intentarlo");
+			nifInput.setText("");
+			checker = false;
+		}
 		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(10, 55, 46, 14);
-		contentPane.add(lblNombre);
+		if(!emailValidator(email)){
+			verMensaje("El formato de email no es válido, por favor, vuelva a introducirlo");
+			emailInput.setText("");
+			checker = false;
+		}
+
+		if(!phoneValidator(phone)) {
+			verMensaje("El número de teléfono no es válido, por favor, vuelva a introducirlo");			
+			checker = false;
+			phoneInput.setText("");
+		}
+
+		if(!validarNombre(name)) {
+			verMensaje("El nombre del cliente no es válido, por favor, inténtelo de nuevo");
+			checker = false;
+			nameInput.setText("");
+		}
+
+		if (checker) {
+			cliente = new Cliente(nif, name, phone, email);
+			List<Cliente> listaClientes = new ArrayList<>();
+			listaClientes = FicheroCliente.leerFichero();
+			listaClientes.add(cliente);
+			FicheroCliente.crearFichero(listaClientes);
+			verMensaje(cliente.toString());
+			dispose();
+		}
+	}
+	
+	public void montarInputs() {
+		nifInput.setBounds(193, 29, 203, 20);
+		nifInput.setColumns(10);
+		contentPane.add(nifInput);
 		
-		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(10, 88, 46, 14);
-		contentPane.add(lblCorreo);
+		nameInput.setBounds(193, 60, 203, 20);
+		nameInput.setColumns(10);
+		contentPane.add(nameInput);
+
+		phoneInput.setBounds(193, 91, 203, 20);
+		phoneInput.setColumns(10);
+		contentPane.add(phoneInput);
+
+		emailInput.setBounds(193, 122, 203, 20);
+		contentPane.add(emailInput);
+		emailInput.setColumns(10);
+	}
+	
+	private void montarLabels() {
+		JLabel nameLabel = new JLabel("Nombre");
+		nameLabel.setBounds(33, 63, 123, 20);
+		contentPane.add(nameLabel);
 		
-		JLabel lblTelfono = new JLabel("Teléfono");
-		lblTelfono.setBounds(10, 119, 46, 14);
-		contentPane.add(lblTelfono);
-	}
+		JLabel nifLabel = new JLabel("NIF nuevo cliente");
+		nifLabel.setBounds(33, 29, 150, 20);
+		contentPane.add(nifLabel);
 
-	public void setNIF(String idNIF) {
-		txtNIF.setText(idNIF);
-	}
+		JLabel phoneLabel = new JLabel("Teléfono");
+		phoneLabel.setBounds(33, 94, 123, 20);
+		contentPane.add(phoneLabel);
 
-	public String getNif() {
-		return this.txtNIF.getText();
-	}
-
-	public String getNombre() {
-		return this.txtNombre.getText();
-	}
-
-	public String getEmail() {
-		return this.txtCorreo.getText();
-	}
-
-	public String getTelefono() {
-		return this.txtNIF.getText();
+		JLabel emailLabel = new JLabel("Correo electrónico");
+		emailLabel.setBounds(33, 125, 123, 20);
+		contentPane.add(emailLabel);
 	}
 }

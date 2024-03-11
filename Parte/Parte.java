@@ -1,19 +1,19 @@
-/*package Parte;
+package Parte;
 import java.io.Serializable;
 import java.util.Date;
 
 import Clientes.Cliente;
 import Empleado.Empleado;
-import EstadoPartesEnum.EstadoParte;
 import Localizacion.Localizacion;
-import Material.Material;
-import Servicios.Servicio;
+import Material.VentanaMaterial;
+import Servicio.Servicio;
 import Vehiculo.Vehiculo;
-
 
 public class Parte implements Serializable {
 
-    private String descripcion;
+	private static final long serialVersionUID = 1L;
+	
+	private String descripcion;
     private Date fecha;
     private String observaciones;
     private EstadoParte estado = EstadoParte.EN_PROCESO;
@@ -21,7 +21,7 @@ public class Parte implements Serializable {
     private Empleado empleado;
     private Vehiculo vehiculo; //opcional
     private Servicio servicio; //opcional
-    private Material material; //opcional
+    private VentanaMaterial material; //opcional
     private Localizacion localizacion;
 
     public Parte() {}
@@ -35,7 +35,7 @@ public class Parte implements Serializable {
         this.servicio = servicio;
     }
 
-    public Parte(Date fecha, Cliente cliente, Empleado empleado, Vehiculo vehiculo, Servicio servicio, Material material){
+    public Parte(Date fecha, Cliente cliente, Empleado empleado, Vehiculo vehiculo, Servicio servicio, VentanaMaterial material){
         this(fecha, cliente, empleado, vehiculo, servicio);
         this.material = material;
     }
@@ -44,26 +44,11 @@ public class Parte implements Serializable {
         this.localizacion = localizacion;
     }
 
-    public Parte(Date fecha, Cliente cliente, Empleado empleado, Vehiculo vehiculo, Servicio servicio, Material material, Localizacion localizacion){
+    public Parte(Date fecha, Cliente cliente, Empleado empleado, Vehiculo vehiculo, Servicio servicio, VentanaMaterial material, Localizacion localizacion){
         this(fecha, cliente, empleado, vehiculo, servicio, material);
         this.localizacion = localizacion;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
 
     public EstadoParte getEstado() {
         return estado;
@@ -71,62 +56,6 @@ public class Parte implements Serializable {
 
     public void setEstado(EstadoParte estado) {
         this.estado = estado;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Empleado getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
-    }
-
-    public Vehiculo getVehiculo() {
-        return vehiculo;
-    }
-
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public Localizacion getLocalizacion() {
-        return localizacion;
-    }
-
-    public void setLocalizacion(Localizacion localizacion) {
-        this.localizacion = localizacion;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     @Override
@@ -142,4 +71,3 @@ public class Parte implements Serializable {
                 "\t\tlocalizacion\t\t\t: " + localizacion + "\n\n";
     }
 }
-*/

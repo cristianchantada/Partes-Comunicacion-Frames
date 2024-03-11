@@ -1,9 +1,13 @@
-/*package Parte;
+package Parte;
+import static Main.PartesFinal.ABSOLUTE_PATH_TO_MODEL_DIR;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FicheroPartes {
+	
+	private final static String RUTA_A_FICHERO_PARTES = ABSOLUTE_PATH_TO_MODEL_DIR + "partes.dat";
 
     public void verPartes() {
         List<Parte> partes = consultarPartes();
@@ -15,7 +19,7 @@ public class FicheroPartes {
     }
 
     public void generarPartes(List<Parte> partes) {
-        try (ObjectOutputStream ficheroPartes = new ObjectOutputStream(new FileOutputStream("C:\\DAW\\Programación\\Java2Evaluacion\\PartesDeTrabajo\\src\\model\\partes.dat"))) {
+        try (ObjectOutputStream ficheroPartes = new ObjectOutputStream(new FileOutputStream(RUTA_A_FICHERO_PARTES))) {
             for (Parte parte : partes) {
                 ficheroPartes.writeObject(parte);
             }
@@ -27,7 +31,7 @@ public class FicheroPartes {
 
     public List<Parte> consultarPartes() {
         List<Parte> partes = new ArrayList<>();
-        try (ObjectInputStream ficheroPartes = new ObjectInputStream(new FileInputStream("C:\\DAW\\Programación\\Java2Evaluacion\\PartesDeTrabajo\\src\\model\\partes.dat"))) {
+        try (ObjectInputStream ficheroPartes = new ObjectInputStream(new FileInputStream(RUTA_A_FICHERO_PARTES))) {
             while (true) {
                 Parte parte = (Parte) ficheroPartes.readObject();
                 partes.add(parte);
@@ -50,4 +54,4 @@ public class FicheroPartes {
     
     
 
-}*/
+}

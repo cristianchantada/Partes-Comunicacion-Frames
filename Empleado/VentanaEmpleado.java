@@ -1,117 +1,117 @@
 package Empleado;
 
-import java.awt.EventQueue;
 import java.util.List;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import Mensajes.Mensaje;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
-import Validacion.*;
+import java.awt.event.*;
+import static Mensajes.Mensaje.verMensaje;
+import static Validacion.Validator.*;
 
 public class VentanaEmpleado extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	public JTextField txtNIF;
-	private JTextField txtNombre;
-	private JTextField txtCorreo;
-	private JTextField txtTelefono;
-	private JTextField txtCodigo;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaEmpleado frame = new VentanaEmpleado();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JButton btnInsertar = new JButton("Añadir");
+	public JTextField nifInput = new JTextField();
+	private JTextField nameInput = new JTextField();
+	private JTextField emailInput = new JTextField();
+	private JTextField phoneInput = new JTextField();
+	private JTextField codeInput = new JTextField();
+	private Empleado empleado;
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaEmpleado() {
-		
-
+	public VentanaEmpleado() {	
 		setBounds(100, 100, 315, 249);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		txtNIF = new JTextField();
-		txtNIF.setBounds(88, 21, 158, 20);
-		contentPane.add(txtNIF);
-		txtNIF.setColumns(10);
+		montarLabels();
+		montarInputs();
 		
-		txtNombre = new JTextField();
-		txtNombre.setColumns(10);
-		txtNombre.setBounds(88, 52, 158, 20);
-		contentPane.add(txtNombre);
-		
-		txtCorreo = new JTextField();
-		txtCorreo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!Validator.validateEmail(txtCorreo.getText())) {
-					Mensaje.verMensaje("El correo no es correcto.\nPor favor escribe el correo correcto");
-					txtCorreo.requestFocus();	
-				}
-					
-			}
-		});
-		txtCorreo.setColumns(10);
-		txtCorreo.setBounds(88, 85, 158, 20);
-		contentPane.add(txtCorreo);
-		
-		txtTelefono = new JTextField();
-		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(88, 116, 158, 20);
-		contentPane.add(txtTelefono);
-		
-		JButton btnInsertar = new JButton("Añadir");
 		btnInsertar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String nif=nifInput.getText().replaceAll("\\s", "").replaceAll("-", "")
+						, name=nameInput.getText()
+						, email=emailInput.getText()
+						, phone=phoneInput.getText()
+						, code=codeInput.getText();	
 				
-				//Cargo la lista de clientes
-				FicheroEmpleado f=new FicheroEmpleado();	
-				List <Empleado> listaEmpleados=new ArrayList<>();
-				listaEmpleados=FicheroEmpleado.lempleado;
-				//Cargo el cliente nuevo
-				Empleado nuevoCliente=new Empleado(txtNIF.getText(),txtNombre.getText(),
-						                         txtCorreo.getText(),txtTelefono.getText(),txtCodigo.getText());
-				//Grabo el nuevo cliente
-				listaEmpleados.add(nuevoCliente);	
-				f.crearFichero(listaEmpleados);
-				Mensaje.verMensaje(txtNIF.getText());
+				boolean checker = true;
+				if(!nifValidator(nif)) {
+					verMensaje("El NIF no es correcto, por favor, buelva a intentarlo");
+					nifInput.setText("");
+					checker = false;
+				}
+				
+				if(!emailValidator(email)){
+					verMensaje("El formato de email no es válido, por favor, vuelva a introducirlo");
+					emailInput.setText("");
+					checker = false;
+				}
+
+				if(!phoneValidator(phone)) {
+					verMensaje("El número de teléfono no es válido, por favor, vuelva a introducirlo");
+					checker = false;
+					phoneInput.setText("");
+				}
+
+				if(!validarNombre(name)) {
+					verMensaje("El nombre del empleado no es válido, por favor, inténtelo de nuevo");
+					checker = false;
+					nameInput.setText("");
+				}
+				
+				if(!validarCodigoOperario(code)) {
+					verMensaje("El código del operario no es válido, inserte otro con formato OPNNNNN");
+					checker = false;
+					codeInput.setText("");
+				}
+
+				if (checker) {
+					empleado = new Empleado(nif, name, phone, email, code);
+					List<Empleado> listaEmpleados = new ArrayList<>();
+					FicheroEmpleado ficheroEmpleado = new FicheroEmpleado();
+					
+					listaEmpleados = ficheroEmpleado.leerFicheroEmpleado();
+					listaEmpleados.add(empleado);
+					ficheroEmpleado.crearFichero(listaEmpleados);
+					verMensaje(empleado.toString());
+					dispose();
+				}
 			}
 		});
 		btnInsertar.setBounds(123, 176, 89, 23);
 		contentPane.add(btnInsertar);
+		setVisible(true);
+	}
+	
+	public void montarInputs() {
 		
+		nifInput.setBounds(88, 21, 158, 20);
+		contentPane.add(nifInput);
+		nifInput.setColumns(10);
+
+		nameInput.setColumns(10);
+		nameInput.setBounds(88, 52, 158, 20);
+		contentPane.add(nameInput);
+			
+		emailInput.setColumns(10);
+		emailInput.setBounds(88, 85, 158, 20);
+		contentPane.add(emailInput);
+		
+		codeInput.setColumns(10);
+		codeInput.setBounds(88, 147, 158, 20);
+		contentPane.add(codeInput);
+		
+		phoneInput.setColumns(10);
+		phoneInput.setBounds(88, 116, 158, 20);
+		contentPane.add(phoneInput);
+	}
+	
+	public void montarLabels() {
 		JLabel lblnif = new JLabel("NIF");
 		lblnif.setBounds(10, 24, 46, 14);
 		contentPane.add(lblnif);
@@ -131,35 +131,6 @@ public class VentanaEmpleado extends JFrame {
 		JLabel lbCodigo = new JLabel("Código");
 		lbCodigo.setBounds(10, 150, 46, 14);
 		contentPane.add(lbCodigo);
-		
-		txtCodigo = new JTextField();
-		txtCodigo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!Validator.validarCodigoOperario(getName()))
-					Mensaje.verMensaje("El código del operario no es correcto. Debes introducir un código correcto");
-				    txtCodigo.requestFocus();
-			}
-		});
-		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(88, 147, 158, 20);
-		contentPane.add(txtCodigo);
 	}
 	
-	public void setNIF(String idNIF) {
-		txtNIF.setText(idNIF);
-	}
-	
-	public String getNif() {
-		return this.txtNIF.getText();
-	}
-	public String getNombre() {
-		return this.txtNombre.getText();
-	}
-	public String getEmail() {
-		return this.txtCorreo.getText();
-	}
-	public String getTelefono() {
-		return this.txtNIF.getText();
-	}
 }

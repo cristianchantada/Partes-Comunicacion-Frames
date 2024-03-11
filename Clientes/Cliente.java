@@ -1,8 +1,6 @@
 package Clientes;
-
 import java.io.Serializable;
 import java.util.List;
-
 
 public class Cliente implements Serializable {
 
@@ -12,71 +10,45 @@ public class Cliente implements Serializable {
 	private String correo;
 	private String telefono;
 	
-	public Cliente(String nif) {
-		this.nif=nif;
-		nombre="";
-		correo="";
-		telefono="";		
+	public Cliente() {}
+	
+	public Cliente(String nif){
+		this();
+		this.nif = nif;
 	}
 	
 	public Cliente(String nif, String name, String tlf, String mail) {
-		this.nif=nif;
-		nombre=name;
-		correo=mail;
-		telefono=tlf;	
+		this(nif);
+		this.nombre=name;
+		this.correo=mail;
+		this.telefono=tlf;
 	}
-
+	
 	@Override
 	public String toString() {
-		return " Cliente{" + "nombre='" + nombre + '\'' + ", nif='" + nif + '\'' + ", correo='" + correo + '\''
-				+ ", telefono='" + telefono + '\'' + '}';
+		return "El cliente ha sido creado con los siguientes datos:"
+				+ "\n\tNombre: " + nombre
+				+ "\n\tNIF: " + nif 
+				+ "\n\tTeléfono: " + telefono
+				+ "\n\tCorreo electrónico: " + correo;
 	}
 
 	public static boolean clienteExiste(String nif,List<Cliente> lc ) {
-		for(Cliente c:lc ) {
-			if (nif.equals(c.nif)) return true;
-		} 
-		
+		if(lc != null) {
+			for(Cliente c:lc ) {
+				if(nif.equals(c.nif)) return true;
+			}
+			return false;
+		}
 		return false;
 	}
 
-
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 
 	public String getNif() {
 		return nif;
 	}
-
-
-	public void setNif(String nif) {
-		this.nif = nif;
-	}
-
-
-	public String getCorreo() {
-		return correo;
-	}
-
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
 }
+		

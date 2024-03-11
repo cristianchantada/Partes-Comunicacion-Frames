@@ -1,5 +1,4 @@
-package EstadoPartesEnum;
-
+package Parte;
 public enum EstadoParte {
     EN_PROCESO("en proceso"),
     TERMINADO("terminado");

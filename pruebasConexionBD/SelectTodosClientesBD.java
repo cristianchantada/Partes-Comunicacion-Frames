@@ -1,12 +1,8 @@
-package BDPackage;
+package pruebasConexionBD;
 
 import java.sql.*;
 
 public class SelectTodosClientesBD {
-
-	static Connection conexion = null;
-	static java.sql.Statement stmt = null;
-	static ResultSet rs;
 
 	public static void main(String[] args) {
 
@@ -15,10 +11,10 @@ public class SelectTodosClientesBD {
 			String direccionPServer = "jdbc:mysql://localhost:3306/partes";
 			String user = "root";
 			String password = "0000";
-			conexion = DriverManager.getConnection(direccionPServer, user, password);
-			stmt = conexion.createStatement();
+			Connection conexion = DriverManager.getConnection(direccionPServer, user, password);
+			Statement stmt = conexion.createStatement();
 			String sql = "select * from clientes";
-			rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				System.out.println("Cliente: " + rs.getString("nombre"));
 			}
@@ -30,5 +26,4 @@ public class SelectTodosClientesBD {
 			e.printStackTrace();
 		}
 	}
-
 }

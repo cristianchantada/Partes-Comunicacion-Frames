@@ -8,7 +8,9 @@ import java.util.List;
 import java.awt.Color;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
 import com.toedter.calendar.JDateChooser;
+
 import Clientes.*;
 import Interfaces.ComunicaDatos;
 import Material.*;
@@ -21,10 +23,6 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 	static boolean lanzarDatosEmpleado = false;
 
     public final static String ABSOLUTE_PATH_TO_MODEL_DIR = System.getProperty("user.dir") + "//model//";
-
-	/*
-	 * Instanciación de los inputs de las diferentes clases
-	 */
 
 	private JPanel panelAplicacion = new JPanel();
 	private JDateChooser txtCalendarFechaParte = new JDateChooser();
@@ -50,11 +48,23 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 	private Cliente cliente = new Cliente();
 	public List<Material> listaMateriales;
 	public List<Servicio> listaServicios;
-
-	/**
-	 * Constructor del frame.
-	 */
 	
+
+	// Lanzador de la aplicación
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PartesFinal frame = new PartesFinal();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	// Constructor
 	public PartesFinal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 873, 600);
@@ -68,6 +78,23 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 		llamarMetodosMontajeDeComponentes();
 		panelAplicacion.repaint();
 	}
+	
+	// Método que llama a montar todos los componentes de la app.
+	private void llamarMetodosMontajeDeComponentes() {
+		montarInputsLocalizacion();
+		montarInputsCliente();
+		montarInputsClaseParte();
+		montarInputsEmpleado();
+		montarInputsMaterial();
+		montarInputsServicios();
+		montarInputsVehiculo();
+		montarBotonLimpiar();
+		montarBotonAltaParte();
+		montarBotonNuevoCliente();
+		montarBotonNuevoEmpleado();
+		montarBotonNuevoVehiculo();
+		montarLabels();
+	}
 
 	public void onSalirFrameMateriales(String materiales) {
 		txtareaMaterial.setText(materiales);
@@ -78,9 +105,7 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 		JOptionPane.showMessageDialog(this, "Datos devueltos: " + servicios);
 	}
 
-	/*
-	 * Interfaces de comunicación entre Clases
-	 */
+
 	// Implementación de interfaces para el intercambio de datos
 	public void enviaDatosServicios(List<Servicio> listaServicios) {
 		this.listaServicios = listaServicios;	
@@ -105,10 +130,8 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 		return s;
 	}
 
-	/*
-	 * Métodos para el montaje de Componentes
-	 */
 
+	// Métodos para el montaje de los componentes en pantalla
 	private void montarBotonAltaParte() {
 		botonAltaParte.addMouseListener(new MouseAdapter() {
 			@Override
@@ -301,9 +324,23 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 	}
 
 	private void montarInputsVehiculo() {
-		txtMatricula.setColumns(10);
-		txtMatricula.setBounds(108, 374, 100, 20);
-		panelAplicacion.add(txtMatricula);
+		
+		JComboBox<String> vehiculoComboBox = new JComboBox<>();
+		vehiculoComboBox.setBounds(108, 374, 300, 20);
+		ArrayList<Cliente> listaVehiculos = new ArrayList<>();
+		listaVehiculos = (ArrayList<Cliente>) FicheroCliente.leerFichero();
+
+		vehiculoComboBox.addItem("--Escoja un cliente de la lista--");
+		for (Cliente cliente : listaVehiculos) {
+			vehiculoComboBox.addItem(cliente.getNif() + ", " + cliente.getNombre());
+		}
+		vehiculoComboBox.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (vehiculoComboBox.getSelectedIndex() != 0) {
+				}
+			}
+		});
+		panelAplicacion.add(vehiculoComboBox);
 
 		txtKilometros.setColumns(10);
 		txtKilometros.setBounds(328, 374, 80, 20);
@@ -408,38 +445,7 @@ public class PartesFinal extends JFrame implements ComunicaDatos {
 
 	}
 
-	// Método que llama a montar todos los componentes de la app.
-	private void llamarMetodosMontajeDeComponentes() {
-		montarInputsLocalizacion();
-		montarInputsCliente();
-		montarInputsClaseParte();
-		montarInputsEmpleado();
-		montarInputsMaterial();
-		montarInputsServicios();
-		montarInputsVehiculo();
-		montarBotonLimpiar();
-		montarBotonAltaParte();
-		montarBotonNuevoCliente();
-		montarBotonNuevoEmpleado();
-		montarBotonNuevoVehiculo();
-		montarLabels();
-	}
 
-	/**
-	 * Lanzador de la aplicacion
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PartesFinal frame = new PartesFinal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	
 	/*public void cristianMontarCheckeoCliente() {

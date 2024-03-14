@@ -26,11 +26,9 @@ public class Cliente implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "El cliente ha sido creado con los siguientes datos:"
-				+ "\n\tNombre: " + nombre
-				+ "\n\tNIF: " + nif 
-				+ "\n\tTeléfono: " + telefono
-				+ "\n\tCorreo electrónico: " + correo;
+		return "Nombre: " + nombre
+				+ ", NIF: " + nif; 
+
 	}
 
 	public static boolean clienteExiste(String nif,List<Cliente> lc ) {

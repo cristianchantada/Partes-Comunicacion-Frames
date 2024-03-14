@@ -12,6 +12,8 @@ public class Empleado implements Serializable {
 	private String telefono;
 	private String codigo;
 
+	public Empleado() {}
+	
 	public Empleado(String nif) {
 		this.nif = nif;
 	}
@@ -26,8 +28,7 @@ public class Empleado implements Serializable {
 
 	@Override
 	public String toString() {
-		return "El empleado ha sido creado con los siguientes datos:" + "\n\tNombre: " + nombre + "\n\tNIF: " + nif
-				+ "\n\tTeléfono: " + telefono + "\n\tCorreo electrónico: " + correo + "\n\tCódigo empleado" + codigo;
+		return "Nombre: " + nombre + ", NIF: " + nif;
 	}
 
 	public static boolean empleadoExiste(String nif, List<Empleado> le) {

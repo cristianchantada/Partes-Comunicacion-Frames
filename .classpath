@@ -6,7 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="Servicios/" kind="src" path=""/>
-	<classpathentry exported="true" kind="lib" path="C:/DAW/Programación/Java2Evaluacion/TrabajandoConBDPartes/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="MySql-connector/mysql-connector-j-8.3.0.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4/lib/junit-4.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

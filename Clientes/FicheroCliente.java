@@ -2,6 +2,7 @@ package Clientes;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import static Mensajes.Mensaje.verMensaje;
 import static Main.PartesFinal.ABSOLUTE_PATH_TO_MODEL_DIR;
 
 public class FicheroCliente {
@@ -36,11 +37,13 @@ public class FicheroCliente {
 	    return clientes;
 	}
 
-	public static void crearFichero(List<Cliente> cliente) {
+	public static boolean crearFichero(List<Cliente> cliente) {
 		try (ObjectOutputStream miFichero = new ObjectOutputStream(new FileOutputStream(RUTA_A_FICHERO_CLIENTES))) {
 			miFichero.writeObject(cliente);
+			return true;		
 		} catch (IOException e) {
 			System.out.println("Error al serializar los datos en el archivo binario: " + e.getMessage());
+			return false;
 		}
 	}
 

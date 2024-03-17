@@ -41,7 +41,7 @@ public class FicheroLocalizaciones {
 	public static void grabarVehiculo(List<Localizacion> listaLocalizaciones) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(RUTA_A_FICHERO_LOCALIZACIONES))) {
             outputStream.writeObject(listaLocalizaciones);
-            verMensaje("Datos guardados con éxito");         
+            verMensaje("Datos de localización guardados con éxito");         
         } catch (Exception e) {
             System.out.println("Error al serializar los datos en el archivo binario: " + e.getMessage());
         }

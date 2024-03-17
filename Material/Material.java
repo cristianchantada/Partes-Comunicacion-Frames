@@ -1,6 +1,10 @@
 package Material;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String desc;
 	private int ctdad;
 	
@@ -18,5 +22,5 @@ public class Material {
 	public int getCtdad() {
 		return ctdad;
 	}
-
+	
 }

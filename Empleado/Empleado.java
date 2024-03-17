@@ -25,6 +25,15 @@ public class Empleado implements Serializable {
 		this.telefono = tlf;
 		this.codigo = codigoOperario;
 	}
+	
+	public String getNif() {
+		return this.nif;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
 
 	@Override
 	public String toString() {

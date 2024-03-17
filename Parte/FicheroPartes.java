@@ -19,10 +19,12 @@ public class FicheroPartes {
     }
 
     public void generarPartes(List<Parte> partes) {
+    	
         try (ObjectOutputStream ficheroPartes = new ObjectOutputStream(new FileOutputStream(RUTA_A_FICHERO_PARTES))) {
             for (Parte parte : partes) {
                 ficheroPartes.writeObject(parte);
             }
+            System.out.println("Grabando partes en el fichero binario...");
         } catch (IOException e) {
             System.out.println("Ha ocurrido un error en la escritura de datos en fichero partes: " + e.getMessage());
             e.printStackTrace();
@@ -31,6 +33,13 @@ public class FicheroPartes {
 
     public List<Parte> consultarPartes() {
         List<Parte> partes = new ArrayList<>();
+        
+    	File archivoPartes = new File(RUTA_A_FICHERO_PARTES);
+    	
+	    if (archivoPartes.length() == 0) {	    
+	        return partes;
+	    }
+         
         try (ObjectInputStream ficheroPartes = new ObjectInputStream(new FileInputStream(RUTA_A_FICHERO_PARTES))) {
             while (true) {
                 Parte parte = (Parte) ficheroPartes.readObject();
@@ -40,7 +49,6 @@ public class FicheroPartes {
             System.out.println("Error: No se ha encontrado la clase especificada" + e.getMessage());
             e.printStackTrace();
         } catch (EOFException e) {
-            System.out.println("La lectura del fichero ha finalizado al haber terminado sus líneas: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Ha ocurrido un error en la escritura de datos en fichero partes: " + e.getMessage());
             e.printStackTrace();

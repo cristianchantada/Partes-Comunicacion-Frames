@@ -1,7 +1,3 @@
-/.classpath
-/.project
-/MySql-connector/
-/jcalendar-1.4/
 /Clientes/
 /Empleado/
 /Imagenes/
@@ -14,8 +10,11 @@
 /Servicio/
 /Validacion/
 /Vehiculo/
+/jcalendar-1.4/
 /model/
+/models/
 /pruebas/
 /recursos/
-/models/
-/Empleados.dat
+/VistoBueno/
+/Administrador/
+/src/

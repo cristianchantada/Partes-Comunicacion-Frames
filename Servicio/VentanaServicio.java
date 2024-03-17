@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Date;
 import javax.swing.border.EmptyBorder;
 import Interfaces.ComunicaDatos;
+
 import com.toedter.calendar.JDateChooser;
 
 public class VentanaServicio extends JFrame {
@@ -31,8 +32,8 @@ public class VentanaServicio extends JFrame {
 	private String fin;
 	private List<Servicio> listaServicios = new ArrayList<>();
 	
-	public VentanaServicio(ComunicaDatos frameServicios) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaServicio(ComunicaDatos interfazDeComunicacion) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 720, 319);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,11 +75,13 @@ public class VentanaServicio extends JFrame {
 				}
 				
 				servicio = new Servicio(servicioName, inicio, fin, new Date());
+				listaServicios.add(servicio);
 				
-				textArea.append("SERVICIO: " + servicio + "|  FECHA INICIO: " + inicio + "|  FECHA FIN: " + fin + "\n");
+				textArea.append("SERVICIO: " + servicio.getDesc());
 				txtServicio.setText("");
 				txtInicio.setDate(null);
 				txtFin.setDate(null);
+				
 			}
 		});
 		
@@ -87,7 +90,7 @@ public class VentanaServicio extends JFrame {
 
 		botonGuardarServicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameServicios.enviaDatosServicios(listaServicios);
+				interfazDeComunicacion.enviaDatosServicios(listaServicios);
 				textArea.setText("");
 				dispose();
 			}

@@ -1,11 +1,10 @@
 package models;
 
 import java.sql.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Localizacion.Localizacion;
+import Mensajes.Mensaje;
 
 public class LocalizacionDao implements DaoInterface<Localizacion> {
 
@@ -32,6 +31,35 @@ public class LocalizacionDao implements DaoInterface<Localizacion> {
         try {
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, localizacion.getId());
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                newLocalizacion = new Localizacion(
+                    rs.getInt("id"),
+                	rs.getString("direccion"),
+                    rs.getString("cp"),
+                    rs.getString("localidad"),
+                    rs.getString("provincia")
+                );
+            } else {
+                System.out.println("No se encontró ninguna localización con el ID proporcionado.");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL exception in LocalizacionDao.get: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return newLocalizacion;
+    }
+    
+    public Localizacion getLocationByData(Localizacion localizacion) {
+        Localizacion newLocalizacion = null;
+        String sql = "SELECT * FROM localizaciones WHERE direccion = ? AND cp = ? AND localidad = ? AND provincia = ?";
+        try {
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, localizacion.getDireccion());
+            preparedStatement.setString(2, localizacion.getCp());
+            preparedStatement.setString(3, localizacion.getLocalidad());
+            preparedStatement.setString(4, localizacion.getProvincia());
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 newLocalizacion = new Localizacion(
@@ -85,7 +113,6 @@ public class LocalizacionDao implements DaoInterface<Localizacion> {
             preparedStatement.setString(3, localizacion.getLocalidad());
             preparedStatement.setString(4, localizacion.getProvincia());
             preparedStatement.executeUpdate();
-            Mensaje.verMensaje("Localización insertada correctamente");
         } catch (SQLException e) {
             System.out.println("Error al insertar la localización en LocalizacionDao: " + e.getMessage());
         } finally {

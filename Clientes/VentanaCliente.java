@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Interfaces.ComunicaDatos;
+import Main.PartesFinal;
+
 import static Mensajes.Mensaje.verMensaje;
 import java.awt.event.*;
 import static Validacion.Validator.*;
@@ -18,30 +22,34 @@ public class VentanaCliente extends JFrame {
 	private JTextField nameInput = new JTextField();
 	private JTextField phoneInput = new JTextField();
 	private Cliente cliente;
+	private boolean isDataSave;
 
-	public VentanaCliente(Cliente c) {
-		
-		cliente = c;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaCliente(ComunicaDatos frameClientes) {
+
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+
 		setBounds(100, 100, 459, 329);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		montarLabels();
 		montarInputs();
-		
+
 		createClientButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				pulsarBoton();
+				System.out.println("PASA POR AQUÍ 3");
+				frameClientes.enviaConfirmacionDatosGuardados(isDataSave);
 			}
 		});
-		createClientButton.setBounds(195, 180, 139, 23);
+		createClientButton.setBounds(195, 180, 169, 23);
 		contentPane.add(createClientButton);
+
 		setVisible(true);
 	}
-	
+
 	public void setNifInInput(String nif) {
 		nifInput.setText(nif);
 		nifInput.setEnabled(false);
@@ -52,27 +60,28 @@ public class VentanaCliente extends JFrame {
 		String name = nameInput.getText();
 		String email = emailInput.getText();
 		String phone = phoneInput.getText();
-		
+
 		boolean checker = true;
-		if(!nifValidator(nif)) {
+		
+		if (!nifValidator(nif)) {
 			verMensaje("El NIF no es correcto, por favor, buelva a intentarlo");
 			nifInput.setText("");
 			checker = false;
 		}
-		
-		if(!emailValidator(email)){
+
+		if (!emailValidator(email)) {
 			verMensaje("El formato de email no es válido, por favor, vuelva a introducirlo");
 			emailInput.setText("");
 			checker = false;
 		}
 
-		if(!phoneValidator(phone)) {
-			verMensaje("El número de teléfono no es válido, por favor, vuelva a introducirlo");			
+		if (!phoneValidator(phone)) {
+			verMensaje("El número de teléfono no es válido, por favor, vuelva a introducirlo");
 			checker = false;
 			phoneInput.setText("");
 		}
 
-		if(!validarNombre(name)) {
+		if (!validarNombre(name)) {
 			verMensaje("El nombre del cliente no es válido, por favor, inténtelo de nuevo");
 			checker = false;
 			nameInput.setText("");
@@ -82,18 +91,33 @@ public class VentanaCliente extends JFrame {
 			cliente = new Cliente(nif, name, phone, email);
 			List<Cliente> listaClientes = new ArrayList<>();
 			listaClientes = FicheroCliente.leerFichero();
-			listaClientes.add(cliente);
-			FicheroCliente.crearFichero(listaClientes);
-			verMensaje(cliente.toString());
-			dispose();
+			
+			if(Cliente.clienteExiste(nif, listaClientes)) {
+				verMensaje("El cliente con NIF " + nif + " ya existe en la bases de datos" );
+				nifInput.setText("");
+				checker = false;
+			}
+			if(checker) {
+				
+				listaClientes.add(cliente);
+				isDataSave = FicheroCliente.crearFichero(listaClientes);
+
+				if (isDataSave) {
+					verMensaje("El cliente " + cliente.getNombre() + " con NIF " + cliente.getNif() 
+					+ " ha sido creado con éxito");
+					PartesFinal partesFinal = new PartesFinal();
+					partesFinal.setVisible(true);
+				}
+				dispose();
+			}
 		}
 	}
-	
+
 	public void montarInputs() {
 		nifInput.setBounds(193, 29, 203, 20);
 		nifInput.setColumns(10);
 		contentPane.add(nifInput);
-		
+
 		nameInput.setBounds(193, 60, 203, 20);
 		nameInput.setColumns(10);
 		contentPane.add(nameInput);
@@ -106,12 +130,12 @@ public class VentanaCliente extends JFrame {
 		contentPane.add(emailInput);
 		emailInput.setColumns(10);
 	}
-	
+
 	private void montarLabels() {
 		JLabel nameLabel = new JLabel("Nombre");
 		nameLabel.setBounds(33, 63, 123, 20);
 		contentPane.add(nameLabel);
-		
+
 		JLabel nifLabel = new JLabel("NIF nuevo cliente");
 		nifLabel.setBounds(33, 29, 150, 20);
 		contentPane.add(nifLabel);

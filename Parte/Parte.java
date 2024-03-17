@@ -1,7 +1,8 @@
 package Parte;
+
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 import Clientes.Cliente;
 import Empleado.Empleado;
 import Localizacion.Localizacion;
@@ -21,24 +22,15 @@ public class Parte implements Serializable {
     private Cliente cliente;
     private Empleado empleado;
     private Vehiculo vehiculo; //opcional
-    private Servicio servicio; //opcional
+    private List<Servicio> listaServicios; //opcional
     private String descripcionServicio;
-    public Material material;
+    public List<Material> listaMateriales;
     private String descripcionMaterial;
     private VentanaMaterial Vmaterial; //opcional
     private Localizacion localizacion;
     private double kilometrosRealizados;
 
     public Parte() {}
-
-    public Parte(Date fecha, Cliente cliente, Empleado empleado, Vehiculo vehiculo, Servicio servicio) {
-        this();
-        this.fecha = fecha;
-        this.cliente = cliente;
-        this.empleado = empleado;
-        this.vehiculo = vehiculo;
-        this.servicio = servicio;
-    }
 
     public EstadoParte getEstado() {
         return estado;
@@ -98,12 +90,12 @@ public class Parte implements Serializable {
 		this.vehiculo = vehiculo;
 	}
 
-	public Servicio getServicio() {
-		return servicio;
+	public List<Servicio> getListaServicio() {
+		return listaServicios;
 	}
 
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
+	public void setListaServicio(List<Servicio> listaServicios) {
+		this.listaServicios = listaServicios;
 	}
 
 	public VentanaMaterial getMaterial() {
@@ -148,20 +140,27 @@ public class Parte implements Serializable {
 		this.descripcionMaterial = descripcionMaterial;
 	}
 
-	public void setMaterial(Material material) {
-		this.material = material;
+	public void setListaMateriales(List<Material> listaMateriales) {
+		this.listaMateriales = listaMateriales;
 	}
+	
+	
 
 	@Override
     public String toString() {
-        return "----- Parte con fecha" + fecha + "-------\n" +
-                "\t\tObservaciones:" + observaciones + "\n" +
-                "\t\tEstado:\n\t\t\t" + estado + "\n" +
-                "\t\tCliente:\n\t\t\t" + cliente + "\n" +
-                "\t\tEmpleado:\n\t\t\t" + empleado + "\n" +
-                "\t\tVehiculo:\n\t\t\t" + vehiculo + "\n" +
-                "\t\tServicio:\n\t\t\t" + servicio + "\n" +
-                "\t\tMaterial:\n\t\t\t" + material + "\n" +
-                "\t\tlocalizacion\t\t\t: " + localizacion + "\n\n";
+        return "Parte con fecha " + fecha +
+                " | Observaciones: " + observaciones +
+                " | Estado: " + estado +
+                " | Cliente: " + cliente.getNif()+
+                " | Empleado: " + empleado.getNif();
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+	
+	
+	
 }

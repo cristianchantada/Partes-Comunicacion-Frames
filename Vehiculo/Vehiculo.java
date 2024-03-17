@@ -1,5 +1,8 @@
 package Vehiculo;
 import java.io.Serializable;
+import java.util.List;
+
+import Clientes.Cliente;
 
 public class Vehiculo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,6 +41,16 @@ public class Vehiculo implements Serializable {
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
+	}
+	
+	public static boolean vehiculoExiste(String matricula ,List<Vehiculo> lv ) {
+		if(lv != null) {
+			for(Vehiculo v : lv ) {
+				if(matricula.equals(v.matricula)) return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
 	@Override

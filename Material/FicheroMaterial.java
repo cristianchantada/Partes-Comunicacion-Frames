@@ -47,42 +47,4 @@ public class FicheroMaterial {
         }
     }
 	
-	// Métodos Xabi
-	/*
-	private static ArrayList<String> desc = new ArrayList<>();
-	private static ArrayList<Integer> ctdad = new ArrayList<>();
-	
-	public static void leerFicheroMaterial() {
-		try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_A_FICHERO_MATERIAL))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] parts = line.split(",");
-				desc.add(parts[0]);
-				ctdad.add(Integer.parseInt(parts[1]));
-			}
-		} catch (Exception e) {
-
-		}
-	}
-
-	public static void escribirEnFicheroMaterial() {
-		try (ObjectOutputStream outputStream = new ObjectOutputStream(
-				new FileOutputStream(RUTA_A_FICHERO_MATERIAL, false))) {
-			outputStream.writeObject(desc);
-			outputStream.writeObject(ctdad);
-		} catch (Exception e) {
-			System.out.println("Error al serializar los datos en el archivo binario: " + e.getMessage());
-		}
-	}
-	
-	public static void guardarDatos() {
-		try (FileWriter writer = new FileWriter(RUTA_A_FICHERO_MATERIAL, false)) {
-			for (int i = 0; i < desc.size(); i++) {
-				writer.write(desc.get(i) + "," + ctdad.get(i) + "\n");
-			}
-		} catch (Exception e) {
-
-		}
-	}*/
-	
 }

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Interfaces.ComunicaDatos;
+import Main.PartesFinal;
+
 import static Vehiculo.FicheroVehiculos.*;
 import static Validacion.Validator.*;
 import static Mensajes.Mensaje.verMensaje;
@@ -19,9 +23,10 @@ public class VentanaVehiculo extends JFrame {
 	private JTextField txtModelo = new JTextField();
 	private JButton btnNewButton = new JButton("Enviar Datos");
 	private Vehiculo vehiculo;
+	private boolean isDataSave;
 
-	public VentanaVehiculo() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaVehiculo(ComunicaDatos interfazComunicacion) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,9 +66,25 @@ public class VentanaVehiculo extends JFrame {
 				List<Vehiculo> listaVehiculos = new ArrayList<>();
 				listaVehiculos = leerFichero();
 				vehiculo = new Vehiculo(matricula, marca, modelo);
+				
+				if(Vehiculo.vehiculoExiste(matricula, listaVehiculos)) {
+					verMensaje("El vehiculo con matricula " + matricula + " ya existe en la bases de datos" );
+					txtMatricula.setText("");
+					return;
+				}
+				
 				listaVehiculos.add(vehiculo);
-				grabarVehiculo(listaVehiculos);
-				verMensaje(vehiculo.toString());
+				isDataSave = grabarVehiculo(listaVehiculos);				
+			
+				if(isDataSave) {
+					verMensaje(" El vehículo " + vehiculo.getMarca() + " " + vehiculo.getModelo() 
+					+ " con matrícula " + vehiculo.getMatricula() + " ha sido creado con éxito.");
+					PartesFinal partesFinal = new PartesFinal();
+					partesFinal.setVisible(true);
+				}
+				
+				interfazComunicacion.enviaConfirmacionDatosGuardados(isDataSave);
+				
 				dispose();
 			}
 		});
@@ -72,16 +93,16 @@ public class VentanaVehiculo extends JFrame {
 	}
 
 	private void montarInputs() {
-		txtMatricula.setBounds(77, 69, 86, 20);
+		txtMatricula.setBounds(100, 69, 86, 20);
 		contentPane.add(txtMatricula);
 		txtMatricula.setColumns(10);
 
 		txtMarca.setColumns(10);
-		txtMarca.setBounds(77, 110, 86, 20);
+		txtMarca.setBounds(100, 110, 86, 20);
 		contentPane.add(txtMarca);
 
 		txtModelo.setColumns(10);
-		txtModelo.setBounds(77, 157, 86, 20);
+		txtModelo.setBounds(100, 157, 86, 20);
 		contentPane.add(txtModelo);
 	}
 

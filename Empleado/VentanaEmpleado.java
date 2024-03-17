@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Interfaces.ComunicaDatos;
+import Main.PartesFinal;
+
 import java.awt.event.*;
 import static Mensajes.Mensaje.verMensaje;
 import static Validacion.Validator.*;
@@ -19,9 +23,11 @@ public class VentanaEmpleado extends JFrame {
 	private JTextField phoneInput = new JTextField();
 	private JTextField codeInput = new JTextField();
 	private Empleado empleado;
+	private boolean isDataSave;
 
-	public VentanaEmpleado() {	
-		setBounds(100, 100, 315, 249);
+	public VentanaEmpleado(ComunicaDatos interfazComunicacion) {	
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 303, 262);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,40 +80,56 @@ public class VentanaEmpleado extends JFrame {
 					empleado = new Empleado(nif, name, phone, email, code);
 					List<Empleado> listaEmpleados = new ArrayList<>();
 					FicheroEmpleado ficheroEmpleado = new FicheroEmpleado();
-					
 					listaEmpleados = ficheroEmpleado.leerFicheroEmpleado();
-					listaEmpleados.add(empleado);
-					ficheroEmpleado.crearFichero(listaEmpleados);
-					verMensaje(empleado.toString());
-					dispose();
+					
+					if(Empleado.empleadoExiste(nif, listaEmpleados)) {
+						verMensaje("El empleado con NIF " + nif + " ya existe en la bases de datos" );
+						nifInput.setText("");
+						checker = false;
+					}
+					
+					if(checker) {
+						
+						listaEmpleados.add(empleado);
+						isDataSave = ficheroEmpleado.crearFichero(listaEmpleados);
+						
+						if(isDataSave) {
+							verMensaje("El empleado " + empleado.getNombre() + " con NIF " + empleado.getNif() 
+							+ " ha sido creado con éxito");
+							PartesFinal partesFinal = new PartesFinal();
+							partesFinal.setVisible(true);
+						}						
+						interfazComunicacion.enviaConfirmacionDatosGuardados(isDataSave);				
+						dispose();
+					}
 				}
 			}
 		});
-		btnInsertar.setBounds(123, 176, 89, 23);
+		btnInsertar.setBounds(158, 189, 89, 23);
 		contentPane.add(btnInsertar);
 		setVisible(true);
 	}
 	
 	public void montarInputs() {
 		
-		nifInput.setBounds(88, 21, 158, 20);
+		nifInput.setBounds(90, 24, 158, 20);
 		contentPane.add(nifInput);
 		nifInput.setColumns(10);
 
 		nameInput.setColumns(10);
-		nameInput.setBounds(88, 52, 158, 20);
+		nameInput.setBounds(90, 55, 158, 20);
 		contentPane.add(nameInput);
 			
 		emailInput.setColumns(10);
-		emailInput.setBounds(88, 85, 158, 20);
+		emailInput.setBounds(90, 88, 158, 20);
 		contentPane.add(emailInput);
 		
 		codeInput.setColumns(10);
-		codeInput.setBounds(88, 147, 158, 20);
+		codeInput.setBounds(90, 150, 158, 20);
 		contentPane.add(codeInput);
 		
 		phoneInput.setColumns(10);
-		phoneInput.setBounds(88, 116, 158, 20);
+		phoneInput.setBounds(90, 119, 158, 20);
 		contentPane.add(phoneInput);
 	}
 	
@@ -117,19 +139,19 @@ public class VentanaEmpleado extends JFrame {
 		contentPane.add(lblnif);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(10, 55, 46, 14);
+		lblNombre.setBounds(10, 55, 58, 14);
 		contentPane.add(lblNombre);
 		
 		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(10, 88, 46, 14);
+		lblCorreo.setBounds(10, 88, 58, 14);
 		contentPane.add(lblCorreo);
 		
 		JLabel lblTelfono = new JLabel("Teléfono");
-		lblTelfono.setBounds(10, 119, 46, 14);
+		lblTelfono.setBounds(10, 119, 70, 14);
 		contentPane.add(lblTelfono);
 		
 		JLabel lbCodigo = new JLabel("Código");
-		lbCodigo.setBounds(10, 150, 46, 14);
+		lbCodigo.setBounds(10, 150, 70, 14);
 		contentPane.add(lbCodigo);
 	}
 	

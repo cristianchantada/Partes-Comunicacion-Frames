@@ -1,16 +1,27 @@
 package Localizacion;
 
-public class Localizacion {
+import java.io.Serializable;
+
+public class Localizacion implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private int id;
     private String direccion;
-    private String codigoPostal;
+    private String cp;
     private String localidad;
     private String provincia;
 
     public Localizacion() {}
     
-    public Localizacion(String direccion, String codigoPostal, String localidad, String provincia) {
-        this.direccion = direccion;
-        this.codigoPostal = codigoPostal;
+    public Localizacion(int id) {
+    	this.id = id;
+    }
+    
+    public Localizacion(int id, String direccion, String cp, String localidad, String provincia) {
+    	this(id);
+    	this.direccion = direccion;
+        this.cp = cp;
         this.localidad = localidad;
         this.provincia = provincia;
     }
@@ -23,12 +34,12 @@ public class Localizacion {
 		this.direccion = direccion;
 	}
 
-	public String getCodigoPostal() {
-		return codigoPostal;
+	public String getCp() {
+		return cp;
 	}
 
-	public void setCodigoPostal(String codigoPostal) {
-		this.codigoPostal = codigoPostal;
+	public void setCp(String cp) {
+		this.cp = cp;
 	}
 
 	public String getLocalidad() {
@@ -45,6 +56,14 @@ public class Localizacion {
 
 	public void setProvincia(String provincia) {
 		this.provincia = provincia;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
     
     
